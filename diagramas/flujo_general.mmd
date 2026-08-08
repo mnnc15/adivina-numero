@@ -1,0 +1,23 @@
+flowchart TD
+    A([Inicio]) --> B[Mostrar instrucciones]
+    B --> C[Definir rango]
+    C --> D[Usuario piensa un número]
+    D --> E[Computador calcula un intento]
+    E --> F[Mostrar número propuesto]
+    F --> G{Respuesta del usuario}
+
+    G -->|Correcto| H[Mostrar resultado e intentos]
+    G -->|Mayor| I[Aumentar límite inferior]
+    G -->|Menor| J[Disminuir límite superior]
+
+    I --> K{¿Rango válido?}
+    J --> K
+
+    K -->|Sí| E
+    K -->|No| L[Mostrar contradicción]
+
+    H --> M{¿Jugar nuevamente?}
+    L --> M
+
+    M -->|Sí| C
+    M -->|No| N([Fin])
