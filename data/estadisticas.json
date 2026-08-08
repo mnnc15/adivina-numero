@@ -1,6 +1,6 @@
 {
-    "partidas": 0,
-    "completadas": 0,
+    "partidas": 1,
+    "completadas": 1,
     "contradicciones": 0,
-    "mejor_intentos": null
+    "mejor_intentos": 6
 }
