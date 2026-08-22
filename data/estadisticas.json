@@ -1,6 +1,158 @@
 {
-    "partidas": 1,
-    "completadas": 1,
+    "partidas": 10,
+    "completadas": 10,
     "contradicciones": 0,
-    "mejor_intentos": 6
+    "mejor_intentos": 1,
+    "mejor_puntaje": 49990,
+    "total_intentos": 45,
+    "historial": [
+        {
+            "rango_minimo": 1,
+            "rango_maximo": 100,
+            "numero_adivinado": 20,
+            "intentos": 7,
+            "resultado": "completada"
+        },
+        {
+            "rango_minimo": 1,
+            "rango_maximo": 200,
+            "numero_adivinado": 147,
+            "intentos": 8,
+            "puntaje": 0,
+            "resultado": "completada"
+        },
+        {
+            "rango_minimo": 0,
+            "rango_maximo": 1000,
+            "numero_adivinado": 0,
+            "intentos": 9,
+            "puntaje": 9830,
+            "resultado": "completada"
+        },
+        {
+            "rango_minimo": 0,
+            "rango_maximo": 500,
+            "numero_adivinado": 499,
+            "intentos": 8,
+            "puntaje": 4850,
+            "resultado": "completada",
+            "detalle_intentos": [
+                {
+                    "intento": 1,
+                    "numero": 250,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 2,
+                    "numero": 375,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 3,
+                    "numero": 438,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 4,
+                    "numero": 469,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 5,
+                    "numero": 485,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 6,
+                    "numero": 493,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 7,
+                    "numero": 497,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 8,
+                    "numero": 499,
+                    "respuesta": "correcto"
+                }
+            ]
+        },
+        {
+            "rango_minimo": 1,
+            "rango_maximo": 10,
+            "numero_adivinado": 7,
+            "intentos": 4,
+            "puntaje": 20,
+            "resultado": "completada",
+            "detalle_intentos": [
+                {
+                    "intento": 1,
+                    "numero": 5,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 2,
+                    "numero": 8,
+                    "respuesta": "menor"
+                },
+                {
+                    "intento": 3,
+                    "numero": 6,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 4,
+                    "numero": 7,
+                    "respuesta": "correcto"
+                }
+            ]
+        },
+        {
+            "rango_minimo": 1,
+            "rango_maximo": 100,
+            "numero_adivinado": 50,
+            "intentos": 1,
+            "puntaje": 980,
+            "resultado": "completada",
+            "detalle_intentos": [
+                {
+                    "intento": 1,
+                    "numero": 50,
+                    "respuesta": "correcto"
+                }
+            ]
+        },
+        {
+            "rango_minimo": 1,
+            "rango_maximo": 1000,
+            "numero_adivinado": 500,
+            "intentos": 1,
+            "puntaje": 9980,
+            "resultado": "completada",
+            "detalle_intentos": [
+                {
+                    "intento": 1,
+                    "numero": 500,
+                    "respuesta": "correcto"
+                }
+            ]
+        },
+        {
+            "rango_minimo": 0,
+            "rango_maximo": 5000,
+            "numero_adivinado": 2500,
+            "intentos": 1,
+            "puntaje": 49990,
+            "resultado": "completada",
+            "detalle_intentos": [
+                {
+                    "intento": 1,
+                    "numero": 2500,
+                    "respuesta": "correcto"
+                }
+            ]
+        }
+    ]
 }

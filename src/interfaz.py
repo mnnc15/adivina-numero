@@ -22,6 +22,25 @@ def solicitar_entero(mensaje):
         except ValueError:
             print("Error: debes ingresar un número entero.")
 
+def seleccionar_modo():
+    while True:
+        print("\n--- MODO DE JUEGO ---")
+        print("1. Clásico       (1 - 100)")
+        print("2. Experto       (1 - 1000)")
+        print("3. Personalizado")
+
+        opcion = input("Selecciona un modo: ").strip()
+
+        if opcion == "1":
+            return 1, 100
+
+        elif opcion == "2":
+            return 1, 1000
+
+        elif opcion == "3":
+            return solicitar_rango()
+
+        print("Opción inválida. Escribe 1, 2 o 3.")
 
 def solicitar_rango():
     while True:
@@ -48,6 +67,23 @@ def solicitar_respuesta():
         print("Respuesta inválida. Usa: mayor, menor o correcto.")
 
 
+def preguntar_corregir_contradiccion():
+    while True:
+        print("\n¿Qué deseas hacer?")
+        print("1. Corregir mi última respuesta")
+        print("2. Terminar la partida")
+
+        opcion = input("Selecciona una opción: ").strip()
+
+        if opcion == "1":
+            return True
+
+        elif opcion == "2":
+            return False
+
+        print("Opción inválida. Escribe 1 o 2.")
+
+
 def preguntar_repetir():
     while True:
         respuesta = input(
@@ -56,6 +92,7 @@ def preguntar_repetir():
 
         if respuesta == "s":
             return True
+
         elif respuesta == "n":
             return False
 

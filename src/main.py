@@ -1,7 +1,7 @@
 from interfaz import (
     mostrar_titulo,
     mostrar_instrucciones,
-    solicitar_rango,
+    seleccionar_modo,
     preguntar_repetir,
     mostrar_estadisticas_generales,
 )
@@ -14,7 +14,7 @@ def main():
     mostrar_titulo()
 
     while True:
-        minimo, maximo = solicitar_rango()
+        minimo, maximo = seleccionar_modo()
 
         mostrar_instrucciones(minimo, maximo)
 
