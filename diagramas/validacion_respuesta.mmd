@@ -1,9 +1,0 @@
-flowchart TD
-    A([Solicitar respuesta]) --> B[Leer respuesta]
-    B --> C{¿Es mayor, menor o correcto?}
-
-    C -->|Sí| D[Retornar respuesta válida]
-    C -->|No| E[Mostrar mensaje de error]
-
-    E --> B
-    D --> F([Continuar juego])
