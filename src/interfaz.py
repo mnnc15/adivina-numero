@@ -141,7 +141,7 @@ def abrir_partida_grafica(
     ventana_partida = tk.Toplevel(ventana_principal)
 
     ventana_partida.title("Partida - Adivina el Número")
-    ventana_partida.geometry("700x650")
+    ventana_partida.geometry("700x780")
     ventana_partida.resizable(False, False)
     ventana_partida.configure(bg="#111827")
 
@@ -227,6 +227,138 @@ def abrir_partida_grafica(
     )
     etiqueta_posibilidades.pack()
 
+    canvas_rango = tk.Canvas(
+        ventana_partida,
+        width=540,
+        height=90,
+        bg="#111827",
+        highlightthickness=0
+    )
+    canvas_rango.pack(pady=(15, 5))
+
+    etiqueta_progreso = tk.Label(
+        ventana_partida,
+        text="",
+        font=("Arial", 11, "bold"),
+        bg="#111827",
+        fg="#cbd5e1"
+    )
+    etiqueta_progreso.pack()
+
+    def actualizar_visual_rango():
+        canvas_rango.delete("all")
+
+        minimo_inicial = estado["minimo_inicial"]
+        maximo_inicial = estado["maximo_inicial"]
+
+        minimo_actual = estado["minimo"]
+        maximo_actual = estado["maximo"]
+
+        ancho_inicio = 40
+        ancho_fin = 500
+        y = 40
+
+        diferencia_total = maximo_inicial - minimo_inicial
+
+        def convertir_posicion(valor):
+            proporcion = (
+                (valor - minimo_inicial)
+                / diferencia_total
+            )
+
+            return (
+                ancho_inicio
+                + proporcion
+                * (ancho_fin - ancho_inicio)
+            )
+
+        x_minimo = convertir_posicion(minimo_actual)
+        x_maximo = convertir_posicion(maximo_actual)
+
+        canvas_rango.create_line(
+            ancho_inicio,
+            y,
+            ancho_fin,
+            y,
+            fill="#475569",
+            width=6
+        )
+
+        canvas_rango.create_line(
+            x_minimo,
+            y,
+            x_maximo,
+            y,
+            fill="#22c55e",
+            width=10
+        )
+
+        canvas_rango.create_text(
+            ancho_inicio,
+            68,
+            text=str(minimo_inicial),
+            fill="white"
+        )
+
+        canvas_rango.create_text(
+            ancho_fin,
+            68,
+            text=str(maximo_inicial),
+            fill="white"
+        )
+
+        if estado["intento_actual"] is not None:
+            x_intento = convertir_posicion(
+                estado["intento_actual"]
+            )
+
+            canvas_rango.create_oval(
+                x_intento - 7,
+                y - 7,
+                x_intento + 7,
+                y + 7,
+                fill="#facc15",
+                outline=""
+            )
+
+            canvas_rango.create_text(
+                x_intento,
+                15,
+                text=str(estado["intento_actual"]),
+                fill="#facc15",
+                font=("Arial", 10, "bold")
+            )
+
+        posibilidades_iniciales = (
+            maximo_inicial
+            - minimo_inicial
+            + 1
+        )
+
+        posibilidades_actuales = (
+            maximo_actual
+            - minimo_actual
+            + 1
+        )
+
+        progreso = (
+            1
+            - posibilidades_actuales
+            / posibilidades_iniciales
+        ) * 100
+
+        progreso = max(
+            0,
+            min(100, progreso)
+        )
+
+        etiqueta_progreso.config(
+            text=(
+                f"Progreso de búsqueda: "
+                f"{progreso:.1f}%"
+            )
+        )
+
     def actualizar_informacion():
         etiqueta_rango.config(
             text=(
@@ -242,8 +374,13 @@ def abrir_partida_grafica(
         )
 
         etiqueta_posibilidades.config(
-            text=f"Posibilidades restantes: {posibilidades}"
+            text=(
+                f"Posibilidades restantes: "
+                f"{posibilidades}"
+            )
         )
+
+        actualizar_visual_rango()
 
     def generar_intento():
         intento = calcular_intento(
@@ -399,7 +536,7 @@ def abrir_partida_grafica(
     )
 
     generar_intento()
-    
+
 
 def seleccionar_modo_grafico(
     ventana_modo,
@@ -420,12 +557,26 @@ def seleccionar_modo_grafico(
 
 
 def abrir_rango_personalizado(ventana_modo):
-    ventana_rango = tk.Toplevel(ventana_modo)
+    ventana_rango = tk.Toplevel(
+        ventana_modo
+    )
 
-    ventana_rango.title("Rango personalizado")
-    ventana_rango.geometry("420x400")
-    ventana_rango.resizable(False, False)
-    ventana_rango.configure(bg="#111827")
+    ventana_rango.title(
+        "Rango personalizado"
+    )
+
+    ventana_rango.geometry(
+        "420x400"
+    )
+
+    ventana_rango.resizable(
+        False,
+        False
+    )
+
+    ventana_rango.configure(
+        bg="#111827"
+    )
 
     titulo = tk.Label(
         ventana_rango,
@@ -434,7 +585,9 @@ def abrir_rango_personalizado(ventana_modo):
         bg="#111827",
         fg="white"
     )
-    titulo.pack(pady=(40, 30))
+    titulo.pack(
+        pady=(40, 30)
+    )
 
     etiqueta_minimo = tk.Label(
         ventana_rango,
@@ -450,7 +603,9 @@ def abrir_rango_personalizado(ventana_modo):
         font=("Arial", 13),
         justify="center"
     )
-    entrada_minimo.pack(pady=(5, 20))
+    entrada_minimo.pack(
+        pady=(5, 20)
+    )
 
     etiqueta_maximo = tk.Label(
         ventana_rango,
@@ -466,7 +621,9 @@ def abrir_rango_personalizado(ventana_modo):
         font=("Arial", 13),
         justify="center"
     )
-    entrada_maximo.pack(pady=(5, 25))
+    entrada_maximo.pack(
+        pady=(5, 25)
+    )
 
     boton_continuar = tk.Button(
         ventana_rango,
@@ -490,8 +647,13 @@ def validar_rango_grafico(
     entrada_maximo
 ):
     try:
-        minimo = int(entrada_minimo.get())
-        maximo = int(entrada_maximo.get())
+        minimo = int(
+            entrada_minimo.get()
+        )
+
+        maximo = int(
+            entrada_maximo.get()
+        )
 
         if minimo >= maximo:
             messagebox.showerror(
@@ -500,7 +662,9 @@ def validar_rango_grafico(
             )
             return
 
-        ventana_principal = ventana_modo.master
+        ventana_principal = (
+            ventana_modo.master
+        )
 
         ventana_rango.destroy()
         ventana_modo.destroy()
@@ -519,13 +683,29 @@ def validar_rango_grafico(
         )
 
 
-def abrir_seleccion_modo(ventana_principal):
-    ventana_modo = tk.Toplevel(ventana_principal)
+def abrir_seleccion_modo(
+    ventana_principal
+):
+    ventana_modo = tk.Toplevel(
+        ventana_principal
+    )
 
-    ventana_modo.title("Seleccionar modo")
-    ventana_modo.geometry("500x520")
-    ventana_modo.resizable(False, False)
-    ventana_modo.configure(bg="#111827")
+    ventana_modo.title(
+        "Seleccionar modo"
+    )
+
+    ventana_modo.geometry(
+        "500x520"
+    )
+
+    ventana_modo.resizable(
+        False,
+        False
+    )
+
+    ventana_modo.configure(
+        bg="#111827"
+    )
 
     titulo = tk.Label(
         ventana_modo,
@@ -534,7 +714,9 @@ def abrir_seleccion_modo(ventana_principal):
         bg="#111827",
         fg="white"
     )
-    titulo.pack(pady=(45, 10))
+    titulo.pack(
+        pady=(45, 10)
+    )
 
     descripcion = tk.Label(
         ventana_modo,
@@ -543,7 +725,9 @@ def abrir_seleccion_modo(ventana_principal):
         bg="#111827",
         fg="#cbd5e1"
     )
-    descripcion.pack(pady=(0, 35))
+    descripcion.pack(
+        pady=(0, 35)
+    )
 
     boton_clasico = tk.Button(
         ventana_modo,
@@ -558,7 +742,9 @@ def abrir_seleccion_modo(ventana_principal):
             "Clásico"
         )
     )
-    boton_clasico.pack(pady=8)
+    boton_clasico.pack(
+        pady=8
+    )
 
     boton_experto = tk.Button(
         ventana_modo,
@@ -573,7 +759,9 @@ def abrir_seleccion_modo(ventana_principal):
             "Experto"
         )
     )
-    boton_experto.pack(pady=8)
+    boton_experto.pack(
+        pady=8
+    )
 
     boton_personalizado = tk.Button(
         ventana_modo,
@@ -585,7 +773,9 @@ def abrir_seleccion_modo(ventana_principal):
             ventana_modo
         )
     )
-    boton_personalizado.pack(pady=8)
+    boton_personalizado.pack(
+        pady=8
+    )
 
     boton_volver = tk.Button(
         ventana_modo,
@@ -594,16 +784,30 @@ def abrir_seleccion_modo(ventana_principal):
         width=18,
         command=ventana_modo.destroy
     )
-    boton_volver.pack(pady=25)
-    
+    boton_volver.pack(
+        pady=25
+    )
+
 
 def mostrar_menu_grafico():
     ventana = tk.Tk()
 
-    ventana.title("Adivina el Número")
-    ventana.geometry("600x650")
-    ventana.resizable(False, False)
-    ventana.configure(bg="#111827")
+    ventana.title(
+        "Adivina el Número"
+    )
+
+    ventana.geometry(
+        "600x650"
+    )
+
+    ventana.resizable(
+        False,
+        False
+    )
+
+    ventana.configure(
+        bg="#111827"
+    )
 
     titulo = tk.Label(
         ventana,
@@ -612,7 +816,9 @@ def mostrar_menu_grafico():
         bg="#111827",
         fg="white"
     )
-    titulo.pack(pady=(60, 10))
+    titulo.pack(
+        pady=(60, 10)
+    )
 
     subtitulo = tk.Label(
         ventana,
@@ -621,7 +827,9 @@ def mostrar_menu_grafico():
         bg="#111827",
         fg="#cbd5e1"
     )
-    subtitulo.pack(pady=(0, 50))
+    subtitulo.pack(
+        pady=(0, 50)
+    )
 
     boton_nueva = tk.Button(
         ventana,
@@ -629,9 +837,13 @@ def mostrar_menu_grafico():
         font=("Arial", 13, "bold"),
         width=25,
         height=2,
-        command=lambda: abrir_seleccion_modo(ventana)
+        command=lambda: abrir_seleccion_modo(
+            ventana
+        )
     )
-    boton_nueva.pack(pady=8)
+    boton_nueva.pack(
+        pady=8
+    )
 
     boton_estadisticas = tk.Button(
         ventana,
@@ -644,7 +856,9 @@ def mostrar_menu_grafico():
             "Aquí mostraremos las estadísticas del jugador."
         )
     )
-    boton_estadisticas.pack(pady=8)
+    boton_estadisticas.pack(
+        pady=8
+    )
 
     boton_historial = tk.Button(
         ventana,
@@ -657,7 +871,9 @@ def mostrar_menu_grafico():
             "Aquí mostraremos las partidas anteriores."
         )
     )
-    boton_historial.pack(pady=8)
+    boton_historial.pack(
+        pady=8
+    )
 
     boton_ayuda = tk.Button(
         ventana,
@@ -667,7 +883,9 @@ def mostrar_menu_grafico():
         height=2,
         command=mostrar_como_jugar
     )
-    boton_ayuda.pack(pady=8)
+    boton_ayuda.pack(
+        pady=8
+    )
 
     boton_salir = tk.Button(
         ventana,
@@ -677,7 +895,9 @@ def mostrar_menu_grafico():
         height=2,
         command=ventana.destroy
     )
-    boton_salir.pack(pady=8)
+    boton_salir.pack(
+        pady=8
+    )
 
     pie = tk.Label(
         ventana,
@@ -686,7 +906,10 @@ def mostrar_menu_grafico():
         bg="#111827",
         fg="#64748b"
     )
-    pie.pack(side="bottom", pady=20)
+    pie.pack(
+        side="bottom",
+        pady=20
+    )
 
     ventana.mainloop()
 
