@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+import math
 
 
 def mostrar_titulo():
@@ -128,6 +129,227 @@ def mostrar_como_jugar():
         "5. Intenta mantener respuestas coherentes."
     )
 
+def abrir_pantalla_victoria(
+    ventana_principal,
+    ventana_partida,
+    numero,
+    intentos,
+    puntaje,
+    minimo,
+    maximo
+):
+    ventana_partida.withdraw()
+
+    ventana_victoria = tk.Toplevel(
+        ventana_principal
+    )
+
+    ventana_victoria.title(
+        "¡Número encontrado!"
+    )
+
+    ventana_victoria.geometry(
+        "600x650"
+    )
+
+    ventana_victoria.resizable(
+        False,
+        False
+    )
+
+    ventana_victoria.configure(
+        bg="#111827"
+    )
+
+    cantidad_numeros = (
+        maximo
+        - minimo
+        + 1
+    )
+
+    maximo_esperado = max(
+        1,
+        math.ceil(
+            math.log2(
+                cantidad_numeros + 1
+            )
+        )
+    )
+
+    proporcion = (
+        intentos
+        / maximo_esperado
+    )
+
+    if proporcion <= 0.4:
+        estrellas = "★★★★★"
+        valoracion = "EXCELENTE"
+
+    elif proporcion <= 0.6:
+        estrellas = "★★★★☆"
+        valoracion = "MUY BIEN"
+
+    elif proporcion <= 0.8:
+        estrellas = "★★★☆☆"
+        valoracion = "BUEN RESULTADO"
+
+    elif proporcion <= 1:
+        estrellas = "★★★☆☆"
+        valoracion = "COMPLETADO EFICIENTEMENTE"
+
+    else:
+        estrellas = "★★☆☆☆"
+        valoracion = "RESULTADO MEJORABLE"
+
+    titulo = tk.Label(
+        ventana_victoria,
+        text="¡TE ENCONTRÉ!",
+        font=("Arial", 28, "bold"),
+        bg="#111827",
+        fg="white"
+    )
+    titulo.pack(
+        pady=(45, 10)
+    )
+
+    subtitulo = tk.Label(
+        ventana_victoria,
+        text="El número que estabas pensando era:",
+        font=("Arial", 13),
+        bg="#111827",
+        fg="#94a3b8"
+    )
+    subtitulo.pack(
+        pady=(0, 15)
+    )
+
+    etiqueta_numero = tk.Label(
+        ventana_victoria,
+        text=str(numero),
+        font=("Arial", 58, "bold"),
+        bg="#111827",
+        fg="#facc15"
+    )
+    etiqueta_numero.pack(
+        pady=10
+    )
+
+    marco_resultado = tk.Frame(
+        ventana_victoria,
+        bg="#1e293b",
+        padx=40,
+        pady=25
+    )
+    marco_resultado.pack(
+        padx=70,
+        pady=20,
+        fill="x"
+    )
+
+    tk.Label(
+        marco_resultado,
+        text=f"Intentos realizados: {intentos}",
+        font=("Arial", 13),
+        bg="#1e293b",
+        fg="white"
+    ).pack(
+        pady=5
+    )
+
+    tk.Label(
+        marco_resultado,
+        text=f"Puntaje obtenido: {puntaje}",
+        font=("Arial", 13, "bold"),
+        bg="#1e293b",
+        fg="white"
+    ).pack(
+        pady=5
+    )
+
+    tk.Label(
+        marco_resultado,
+        text=f"Máximo esperado: {maximo_esperado} intentos",
+        font=("Arial", 11),
+        bg="#1e293b",
+        fg="#94a3b8"
+    ).pack(
+        pady=5
+    )
+
+    etiqueta_estrellas = tk.Label(
+        ventana_victoria,
+        text=estrellas,
+        font=("Arial", 25, "bold"),
+        bg="#111827",
+        fg="#facc15"
+    )
+    etiqueta_estrellas.pack(
+        pady=(10, 5)
+    )
+
+    etiqueta_valoracion = tk.Label(
+        ventana_victoria,
+        text=valoracion,
+        font=("Arial", 15, "bold"),
+        bg="#111827",
+        fg="white"
+    )
+    etiqueta_valoracion.pack(
+        pady=(0, 25)
+    )
+
+    def jugar_nuevamente():
+        ventana_victoria.destroy()
+        ventana_partida.destroy()
+
+        abrir_seleccion_modo(
+            ventana_principal
+        )
+
+    def volver_menu():
+        ventana_victoria.destroy()
+        ventana_partida.destroy()
+
+    marco_botones = tk.Frame(
+        ventana_victoria,
+        bg="#111827"
+    )
+    marco_botones.pack(
+        pady=15
+    )
+
+    boton_jugar = tk.Button(
+        marco_botones,
+        text="JUGAR DE NUEVO",
+        font=("Arial", 11, "bold"),
+        width=18,
+        height=2,
+        command=jugar_nuevamente
+    )
+    boton_jugar.grid(
+        row=0,
+        column=0,
+        padx=10
+    )
+
+    boton_menu = tk.Button(
+        marco_botones,
+        text="MENÚ PRINCIPAL",
+        font=("Arial", 11, "bold"),
+        width=18,
+        height=2,
+        command=volver_menu
+    )
+    boton_menu.grid(
+        row=0,
+        column=1,
+        padx=10
+    )
+
+    ventana_victoria.protocol(
+        "WM_DELETE_WINDOW",
+        volver_menu
+    )
 
 def abrir_partida_grafica(
     ventana_principal,
@@ -510,16 +732,16 @@ def abrir_partida_grafica(
                 estado["historial"]
             )
 
-            messagebox.showinfo(
-                "¡Número encontrado!",
-                f"¡Lo adiviné!\n\n"
-                f"Tu número es: {intento}\n"
-                f"Intentos: {estado['intentos']}\n"
-                f"Puntaje: {puntaje} puntos",
-                parent=ventana_partida
+            abrir_pantalla_victoria(
+                ventana_principal,
+                ventana_partida,
+                intento,
+                estado["intentos"],
+                puntaje,
+                estado["minimo_inicial"],
+                estado["maximo_inicial"]
             )
 
-            ventana_partida.destroy()
             return
 
         if respuesta == "mayor":

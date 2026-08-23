@@ -1,10 +1,10 @@
 {
-    "partidas": 15,
-    "completadas": 15,
+    "partidas": 18,
+    "completadas": 18,
     "contradicciones": 0,
     "mejor_intentos": 1,
     "mejor_puntaje": 49990,
-    "total_intentos": 82,
+    "total_intentos": 101,
     "historial": [
         {
             "rango_minimo": 1,
@@ -385,6 +385,131 @@
                 {
                     "intento": 9,
                     "numero": 720,
+                    "respuesta": "correcto"
+                }
+            ]
+        },
+        {
+            "rango_minimo": 1,
+            "rango_maximo": 100,
+            "numero_adivinado": 88,
+            "intentos": 3,
+            "puntaje": 940,
+            "resultado": "completada",
+            "detalle_intentos": [
+                {
+                    "intento": 1,
+                    "numero": 50,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 2,
+                    "numero": 75,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 3,
+                    "numero": 88,
+                    "respuesta": "correcto"
+                }
+            ]
+        },
+        {
+            "rango_minimo": 1,
+            "rango_maximo": 1000,
+            "numero_adivinado": 830,
+            "intentos": 10,
+            "puntaje": 9800,
+            "resultado": "completada",
+            "detalle_intentos": [
+                {
+                    "intento": 1,
+                    "numero": 500,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 2,
+                    "numero": 750,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 3,
+                    "numero": 875,
+                    "respuesta": "menor"
+                },
+                {
+                    "intento": 4,
+                    "numero": 812,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 5,
+                    "numero": 843,
+                    "respuesta": "menor"
+                },
+                {
+                    "intento": 6,
+                    "numero": 827,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 7,
+                    "numero": 835,
+                    "respuesta": "menor"
+                },
+                {
+                    "intento": 8,
+                    "numero": 831,
+                    "respuesta": "menor"
+                },
+                {
+                    "intento": 9,
+                    "numero": 829,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 10,
+                    "numero": 830,
+                    "respuesta": "correcto"
+                }
+            ]
+        },
+        {
+            "rango_minimo": 1,
+            "rango_maximo": 100,
+            "numero_adivinado": 73,
+            "intentos": 6,
+            "puntaje": 880,
+            "resultado": "completada",
+            "detalle_intentos": [
+                {
+                    "intento": 1,
+                    "numero": 50,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 2,
+                    "numero": 75,
+                    "respuesta": "menor"
+                },
+                {
+                    "intento": 3,
+                    "numero": 62,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 4,
+                    "numero": 68,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 5,
+                    "numero": 71,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 6,
+                    "numero": 73,
                     "respuesta": "correcto"
                 }
             ]
