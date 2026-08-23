@@ -141,7 +141,7 @@ def abrir_partida_grafica(
     ventana_partida = tk.Toplevel(ventana_principal)
 
     ventana_partida.title("Partida - Adivina el Número")
-    ventana_partida.geometry("700x780")
+    ventana_partida.geometry("1000x780")
     ventana_partida.resizable(False, False)
     ventana_partida.configure(bg="#111827")
 
@@ -244,6 +244,84 @@ def abrir_partida_grafica(
         fg="#cbd5e1"
     )
     etiqueta_progreso.pack()
+
+    marco_historial = tk.Frame(
+        ventana_partida,
+        bg="#1e293b",
+        width=210,
+        height=430
+    )
+    marco_historial.place(
+        x=770,
+        y=150
+    )
+
+    titulo_historial = tk.Label(
+        marco_historial,
+        text="HISTORIAL",
+        font=("Arial", 14, "bold"),
+        bg="#1e293b",
+        fg="white"
+    )
+    titulo_historial.pack(
+        pady=(15, 10)
+    )
+
+    lista_historial = tk.Listbox(
+        marco_historial,
+        width=27,
+        height=20,
+        font=("Arial", 10),
+        bg="#0f172a",
+        fg="white",
+        selectbackground="#334155",
+        borderwidth=0,
+        highlightthickness=0
+    )
+    lista_historial.pack(
+        padx=12,
+        pady=5
+    )
+
+    def actualizar_historial_visual():
+        lista_historial.delete(
+            0,
+            tk.END
+        )
+
+        if not estado["historial"]:
+            lista_historial.insert(
+                tk.END,
+                "Sin intentos todavía"
+            )
+            return
+
+        for registro in estado["historial"]:
+            respuesta = registro["respuesta"]
+
+            if respuesta == "mayor":
+                texto_respuesta = "↑ Mayor"
+
+            elif respuesta == "menor":
+                texto_respuesta = "↓ Menor"
+
+            else:
+                texto_respuesta = "✓ Correcto"
+
+            texto = (
+                f"#{registro['intento']}   "
+                f"{registro['numero']}   "
+                f"{texto_respuesta}"
+            )
+
+            lista_historial.insert(
+                tk.END,
+                texto
+            )
+
+        lista_historial.see(
+            tk.END
+        )
 
     def actualizar_visual_rango():
         canvas_rango.delete("all")
@@ -413,6 +491,8 @@ def abrir_partida_grafica(
             "respuesta": respuesta
         })
 
+        actualizar_historial_visual()
+
         if respuesta == "correcto":
             puntaje = calcular_puntaje(
                 estado["minimo_inicial"],
@@ -462,6 +542,8 @@ def abrir_partida_grafica(
 
                 estado["intentos"] -= 1
                 estado["historial"].pop()
+
+                actualizar_historial_visual()
 
                 generar_intento()
                 return
@@ -535,6 +617,7 @@ def abrir_partida_grafica(
         padx=8
     )
 
+    actualizar_historial_visual()
     generar_intento()
 
 
@@ -556,7 +639,9 @@ def seleccionar_modo_grafico(
     )
 
 
-def abrir_rango_personalizado(ventana_modo):
+def abrir_rango_personalizado(
+    ventana_modo
+):
     ventana_rango = tk.Toplevel(
         ventana_modo
     )
