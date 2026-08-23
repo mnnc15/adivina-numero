@@ -873,6 +873,573 @@ def abrir_seleccion_modo(
         pady=25
     )
 
+def abrir_estadisticas(ventana_principal):
+    from datos import cargar_estadisticas
+
+    estadisticas = cargar_estadisticas()
+
+    ventana_estadisticas = tk.Toplevel(
+        ventana_principal
+    )
+
+    ventana_estadisticas.title(
+        "Estadísticas"
+    )
+
+    ventana_estadisticas.geometry(
+        "560x620"
+    )
+
+    ventana_estadisticas.resizable(
+        False,
+        False
+    )
+
+    ventana_estadisticas.configure(
+        bg="#111827"
+    )
+
+    titulo = tk.Label(
+        ventana_estadisticas,
+        text="ESTADÍSTICAS",
+        font=("Arial", 24, "bold"),
+        bg="#111827",
+        fg="white"
+    )
+    titulo.pack(
+        pady=(40, 10)
+    )
+
+    subtitulo = tk.Label(
+        ventana_estadisticas,
+        text="Resumen de tus partidas",
+        font=("Arial", 12),
+        bg="#111827",
+        fg="#94a3b8"
+    )
+    subtitulo.pack(
+        pady=(0, 30)
+    )
+
+    historial = estadisticas.get(
+        "historial",
+        []
+    )
+
+    partidas_con_intentos = [
+        partida
+        for partida in historial
+        if partida.get("intentos") is not None
+    ]
+
+    if partidas_con_intentos:
+        total_intentos_historial = sum(
+            partida["intentos"]
+            for partida in partidas_con_intentos
+        )
+
+        promedio_intentos = (
+            total_intentos_historial
+            / len(partidas_con_intentos)
+        )
+    else:
+        promedio_intentos = 0
+
+    mejor_intentos = estadisticas.get(
+        "mejor_intentos"
+    )
+
+    if mejor_intentos is None:
+        mejor_intentos_texto = "Sin datos"
+    else:
+        mejor_intentos_texto = (
+            f"{mejor_intentos} intento(s)"
+        )
+
+    marco_datos = tk.Frame(
+        ventana_estadisticas,
+        bg="#1e293b",
+        padx=30,
+        pady=25
+    )
+    marco_datos.pack(
+        padx=50,
+        fill="x"
+    )
+
+    datos = [
+        (
+            "Partidas registradas",
+            estadisticas.get(
+                "partidas",
+                0
+            )
+        ),
+        (
+            "Partidas completadas",
+            estadisticas.get(
+                "completadas",
+                0
+            )
+        ),
+        (
+            "Contradicciones",
+            estadisticas.get(
+                "contradicciones",
+                0
+            )
+        ),
+        (
+            "Mejor resultado",
+            mejor_intentos_texto
+        ),
+        (
+            "Mejor puntaje",
+            f"{estadisticas.get('mejor_puntaje', 0)} puntos"
+        ),
+        (
+            "Promedio de intentos",
+            f"{promedio_intentos:.2f}"
+        )
+    ]
+
+    for nombre, valor in datos:
+        fila = tk.Frame(
+            marco_datos,
+            bg="#1e293b"
+        )
+        fila.pack(
+            fill="x",
+            pady=10
+        )
+
+        etiqueta_nombre = tk.Label(
+            fila,
+            text=nombre,
+            font=("Arial", 12),
+            bg="#1e293b",
+            fg="#cbd5e1"
+        )
+        etiqueta_nombre.pack(
+            side="left"
+        )
+
+        etiqueta_valor = tk.Label(
+            fila,
+            text=str(valor),
+            font=("Arial", 12, "bold"),
+            bg="#1e293b",
+            fg="white"
+        )
+        etiqueta_valor.pack(
+            side="right"
+        )
+
+    boton_volver = tk.Button(
+        ventana_estadisticas,
+        text="VOLVER",
+        font=("Arial", 12, "bold"),
+        width=20,
+        height=2,
+        command=ventana_estadisticas.destroy
+    )
+    boton_volver.pack(
+        pady=35
+    )
+
+def abrir_detalle_partida(
+    ventana_historial,
+    partida,
+    numero_partida
+):
+    ventana_detalle = tk.Toplevel(
+        ventana_historial
+    )
+
+    ventana_detalle.title(
+        f"Detalle de partida #{numero_partida}"
+    )
+
+    ventana_detalle.geometry(
+        "520x600"
+    )
+
+    ventana_detalle.resizable(
+        False,
+        False
+    )
+
+    ventana_detalle.configure(
+        bg="#111827"
+    )
+
+    titulo = tk.Label(
+        ventana_detalle,
+        text=f"PARTIDA #{numero_partida}",
+        font=("Arial", 22, "bold"),
+        bg="#111827",
+        fg="white"
+    )
+    titulo.pack(
+        pady=(30, 10)
+    )
+
+    numero_adivinado = partida.get(
+        "numero_adivinado"
+    )
+
+    if numero_adivinado is None:
+        numero_adivinado = "No encontrado"
+
+    resultado = partida.get(
+        "resultado",
+        "Sin datos"
+    ).capitalize()
+
+    informacion = (
+        f"Rango: "
+        f"{partida.get('rango_minimo', '-')}"
+        f" - "
+        f"{partida.get('rango_maximo', '-')}\n"
+        f"Número: {numero_adivinado}\n"
+        f"Intentos: {partida.get('intentos', 0)}\n"
+        f"Puntaje: {partida.get('puntaje', 0)} puntos\n"
+        f"Resultado: {resultado}"
+    )
+
+    etiqueta_info = tk.Label(
+        ventana_detalle,
+        text=informacion,
+        font=("Arial", 12),
+        justify="left",
+        bg="#111827",
+        fg="#cbd5e1"
+    )
+    etiqueta_info.pack(
+        pady=(10, 25)
+    )
+
+    titulo_intentos = tk.Label(
+        ventana_detalle,
+        text="DETALLE DE INTENTOS",
+        font=("Arial", 14, "bold"),
+        bg="#111827",
+        fg="white"
+    )
+    titulo_intentos.pack(
+        pady=(5, 10)
+    )
+
+    lista_intentos = tk.Listbox(
+        ventana_detalle,
+        width=48,
+        height=15,
+        font=("Arial", 11),
+        bg="#1e293b",
+        fg="white",
+        selectbackground="#334155",
+        borderwidth=0,
+        highlightthickness=0
+    )
+    lista_intentos.pack(
+        padx=30,
+        pady=5
+    )
+
+    detalle = partida.get(
+        "detalle_intentos",
+        []
+    )
+
+    if not detalle:
+        lista_intentos.insert(
+            tk.END,
+            "No existe detalle de intentos para esta partida."
+        )
+
+    else:
+        for registro in detalle:
+            respuesta = registro.get(
+                "respuesta",
+                ""
+            )
+
+            if respuesta == "mayor":
+                texto_respuesta = "↑ Mayor"
+
+            elif respuesta == "menor":
+                texto_respuesta = "↓ Menor"
+
+            elif respuesta == "correcto":
+                texto_respuesta = "✓ Correcto"
+
+            else:
+                texto_respuesta = respuesta
+
+            texto = (
+                f"Intento #{registro.get('intento', '-')}"
+                f"   |   "
+                f"Número: {registro.get('numero', '-')}"
+                f"   |   "
+                f"{texto_respuesta}"
+            )
+
+            lista_intentos.insert(
+                tk.END,
+                texto
+            )
+
+    boton_cerrar = tk.Button(
+        ventana_detalle,
+        text="CERRAR",
+        font=("Arial", 11, "bold"),
+        width=18,
+        height=2,
+        command=ventana_detalle.destroy
+    )
+    boton_cerrar.pack(
+        pady=25
+    )
+
+
+def abrir_historial(ventana_principal):
+    from datos import cargar_estadisticas
+
+    estadisticas = cargar_estadisticas()
+
+    historial = estadisticas.get(
+        "historial",
+        []
+    )
+
+    ventana_historial = tk.Toplevel(
+        ventana_principal
+    )
+
+    ventana_historial.title(
+        "Historial de partidas"
+    )
+
+    ventana_historial.geometry(
+        "760x700"
+    )
+
+    ventana_historial.resizable(
+        False,
+        False
+    )
+
+    ventana_historial.configure(
+        bg="#111827"
+    )
+
+    titulo = tk.Label(
+        ventana_historial,
+        text="HISTORIAL DE PARTIDAS",
+        font=("Arial", 24, "bold"),
+        bg="#111827",
+        fg="white"
+    )
+    titulo.pack(
+        pady=(30, 5)
+    )
+
+    subtitulo = tk.Label(
+        ventana_historial,
+        text=f"Partidas guardadas: {len(historial)}",
+        font=("Arial", 12),
+        bg="#111827",
+        fg="#94a3b8"
+    )
+    subtitulo.pack(
+        pady=(0, 20)
+    )
+
+    contenedor = tk.Frame(
+        ventana_historial,
+        bg="#111827"
+    )
+    contenedor.pack(
+        fill="both",
+        expand=True,
+        padx=35
+    )
+
+    canvas = tk.Canvas(
+        contenedor,
+        bg="#111827",
+        highlightthickness=0
+    )
+
+    scrollbar = tk.Scrollbar(
+        contenedor,
+        orient="vertical",
+        command=canvas.yview
+    )
+
+    marco_partidas = tk.Frame(
+        canvas,
+        bg="#111827"
+    )
+
+    marco_partidas.bind(
+        "<Configure>",
+        lambda evento: canvas.configure(
+            scrollregion=canvas.bbox("all")
+        )
+    )
+
+    ventana_marco = canvas.create_window(
+        (0, 0),
+        window=marco_partidas,
+        anchor="n"
+    )
+
+
+    def ajustar_ancho_historial(evento):
+        canvas.itemconfig(
+            ventana_marco,
+            width=evento.width
+        )
+
+
+    canvas.bind(
+        "<Configure>",
+        ajustar_ancho_historial
+    )
+
+    canvas.configure(
+        yscrollcommand=scrollbar.set
+    )
+
+    canvas.pack(
+        side="left",
+        fill="both",
+        expand=True
+    )
+
+    scrollbar.pack(
+        side="right",
+        fill="y"
+    )
+
+    if not historial:
+        mensaje = tk.Label(
+            marco_partidas,
+            text="Todavía no existen partidas guardadas.",
+            font=("Arial", 13),
+            bg="#111827",
+            fg="#cbd5e1"
+        )
+        mensaje.pack(
+            pady=60
+        )
+
+    else:
+        for indice, partida in enumerate(
+            reversed(historial),
+            start=1
+        ):
+            numero_real = (
+                len(historial)
+                - indice
+                + 1
+            )
+
+            marco_partida = tk.Frame(
+                marco_partidas,
+                bg="#1e293b",
+                padx=20,
+                pady=15
+            )
+            marco_partida.pack(
+                fill="x",
+                pady=8,
+                padx=90
+            )
+
+            encabezado = tk.Label(
+                marco_partida,
+                text=f"Partida #{numero_real}",
+                font=("Arial", 13, "bold"),
+                bg="#1e293b",
+                fg="white"
+            )
+            encabezado.grid(
+                row=0,
+                column=0,
+                sticky="w",
+                pady=(0, 8)
+            )
+
+            numero = partida.get(
+                "numero_adivinado"
+            )
+
+            if numero is None:
+                numero = "-"
+
+            resultado = partida.get(
+                "resultado",
+                "Sin datos"
+            ).capitalize()
+
+            informacion = (
+                f"Rango: "
+                f"{partida.get('rango_minimo', '-')}"
+                f" - "
+                f"{partida.get('rango_maximo', '-')}\n"
+                f"Número: {numero}    "
+                f"Intentos: {partida.get('intentos', 0)}\n"
+                f"Puntaje: {partida.get('puntaje', 0)}    "
+                f"Resultado: {resultado}"
+            )
+
+            etiqueta_datos = tk.Label(
+                marco_partida,
+                text=informacion,
+                font=("Arial", 11),
+                justify="left",
+                bg="#1e293b",
+                fg="#cbd5e1"
+            )
+            etiqueta_datos.grid(
+                row=1,
+                column=0,
+                sticky="w"
+            )
+
+            boton_detalle = tk.Button(
+                marco_partida,
+                text="VER DETALLE",
+                font=("Arial", 10, "bold"),
+                width=14,
+                command=lambda p=partida, n=numero_real: (
+                    abrir_detalle_partida(
+                        ventana_historial,
+                        p,
+                        n
+                    )
+                )
+            )
+            boton_detalle.grid(
+                row=0,
+                column=1,
+                rowspan=2,
+                padx=(40, 5)
+            )
+
+    boton_volver = tk.Button(
+        ventana_historial,
+        text="VOLVER",
+        font=("Arial", 12, "bold"),
+        width=20,
+        height=2,
+        command=ventana_historial.destroy
+    )
+    boton_volver.pack(
+        pady=20
+    )
 
 def mostrar_menu_grafico():
     ventana = tk.Tk()
@@ -936,9 +1503,8 @@ def mostrar_menu_grafico():
         font=("Arial", 13),
         width=25,
         height=2,
-        command=lambda: messagebox.showinfo(
-            "Estadísticas",
-            "Aquí mostraremos las estadísticas del jugador."
+        command=lambda: abrir_estadisticas(
+            ventana
         )
     )
     boton_estadisticas.pack(
@@ -951,9 +1517,8 @@ def mostrar_menu_grafico():
         font=("Arial", 13),
         width=25,
         height=2,
-        command=lambda: messagebox.showinfo(
-            "Historial",
-            "Aquí mostraremos las partidas anteriores."
+        command=lambda: abrir_historial(
+            ventana
         )
     )
     boton_historial.pack(
@@ -962,7 +1527,7 @@ def mostrar_menu_grafico():
 
     boton_ayuda = tk.Button(
         ventana,
-        text="CÓMO JUGAR",
+        text="¿CÓMO JUGAR?",
         font=("Arial", 13),
         width=25,
         height=2,

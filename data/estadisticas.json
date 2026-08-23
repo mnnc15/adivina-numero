@@ -1,10 +1,10 @@
 {
-    "partidas": 14,
-    "completadas": 14,
+    "partidas": 15,
+    "completadas": 15,
     "contradicciones": 0,
     "mejor_intentos": 1,
     "mejor_puntaje": 49990,
-    "total_intentos": 73,
+    "total_intentos": 82,
     "historial": [
         {
             "rango_minimo": 1,
@@ -330,6 +330,61 @@
                 {
                     "intento": 10,
                     "numero": 933,
+                    "respuesta": "correcto"
+                }
+            ]
+        },
+        {
+            "rango_minimo": 1,
+            "rango_maximo": 1000,
+            "numero_adivinado": 720,
+            "intentos": 9,
+            "puntaje": 9820,
+            "resultado": "completada",
+            "detalle_intentos": [
+                {
+                    "intento": 1,
+                    "numero": 500,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 2,
+                    "numero": 750,
+                    "respuesta": "menor"
+                },
+                {
+                    "intento": 3,
+                    "numero": 625,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 4,
+                    "numero": 687,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 5,
+                    "numero": 718,
+                    "respuesta": "mayor"
+                },
+                {
+                    "intento": 6,
+                    "numero": 734,
+                    "respuesta": "menor"
+                },
+                {
+                    "intento": 7,
+                    "numero": 726,
+                    "respuesta": "menor"
+                },
+                {
+                    "intento": 8,
+                    "numero": 722,
+                    "respuesta": "menor"
+                },
+                {
+                    "intento": 9,
+                    "numero": 720,
                     "respuesta": "correcto"
                 }
             ]
