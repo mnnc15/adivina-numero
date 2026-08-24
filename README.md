@@ -1,66 +1,68 @@
 # Juego Adivina el Número
 
-## Descripción
+## Nombre del proyecto
 
-Programa desarrollado en Python en el que el computador intenta adivinar un número pensado por el usuario dentro de un rango definido.
+**Juego Adivina el Número**
 
-## Problema analizado
+## Integrante
 
-El problema consiste en encontrar un número desconocido utilizando únicamente las respuestas del usuario: mayor, menor o correcto.
+- **Mathias Nicolás Núñez Córdova**
 
-## Solución seleccionada
+## Objetivo del sistema
 
-Se utiliza una estrategia basada en el punto medio del rango. Después de cada respuesta, el sistema elimina los valores que ya no pueden ser correctos.
+Desarrollar un juego en Python en el que el computador intente adivinar un número pensado por el usuario dentro de un rango determinado, aplicando estructuras de programación como funciones, condicionales, ciclos, validaciones y manejo de datos.
 
-Se consideraron otras alternativas, como generar números aleatorios o recorrerlos uno por uno, pero la reducción del rango permite aprovechar mejor la información proporcionada por el usuario.
+El sistema utiliza las respuestas del jugador para reducir progresivamente el rango de posibilidades hasta encontrar el número correcto. Además, incorpora una interfaz gráfica y funcionalidades adicionales que permiten mejorar la experiencia del usuario y registrar el desarrollo de las partidas.
 
-## Funcionalidades
+## Descripción de funcionalidades
 
-- Configurar el rango de números.
-- Validar números enteros.
-- Generar intentos.
-- Responder mayor, menor o correcto.
-- Ajustar el rango de búsqueda.
-- Contar intentos.
-- Detectar respuestas contradictorias.
-- Guardar estadísticas.
-- Mostrar el mejor resultado.
-- Permitir jugar nuevamente.
+El sistema cuenta con las siguientes funcionalidades:
 
-## Estructuras lógicas utilizadas
+- Menú principal mediante una interfaz gráfica desarrollada con **Tkinter**.
+- Selección de diferentes modos de juego:
+  - **Clásico:** rango de 1 a 100.
+  - **Experto:** rango de 1 a 1000.
+  - **Personalizado:** permite definir un rango propio.
+- Validación del rango personalizado para comprobar que el valor mínimo sea menor que el valor máximo.
+- Generación de intentos utilizando el valor intermedio del rango disponible.
+- Opciones para indicar si el número pensado es:
+  - Mayor.
+  - Menor.
+  - Correcto.
+- Reducción progresiva del rango de búsqueda según las respuestas del usuario.
+- Contador automático de intentos.
+- Visualización del rango actual durante la partida.
+- Visualización de las posibilidades restantes.
+- Barra gráfica que representa cómo se reduce el espacio de búsqueda.
+- Porcentaje de progreso de la búsqueda.
+- Historial visual de los intentos realizados durante una partida.
+- Registro del número propuesto y de la respuesta correspondiente a cada intento.
+- Detección de respuestas contradictorias.
+- Posibilidad de corregir la última respuesta cuando se detecta una contradicción.
+- Restauración automática del estado anterior de la partida después de corregir una respuesta.
+- Sistema de puntuación basado en el tamaño del rango y la cantidad de intentos utilizados.
+- Pantalla final de victoria que muestra:
+  - Número encontrado.
+  - Cantidad de intentos.
+  - Puntaje obtenido.
+  - Máximo esperado de intentos.
+  - Calificación mediante estrellas.
+  - Valoración del desempeño.
+- Opción para jugar nuevamente.
+- Opción para regresar al menú principal.
+- Registro permanente de estadísticas mediante un archivo JSON.
+- Consulta de estadísticas generales:
+  - Partidas registradas.
+  - Partidas completadas.
+  - Contradicciones.
+  - Mejor cantidad de intentos.
+  - Mejor puntaje.
+  - Promedio de intentos.
+- Historial general de partidas.
+- Visualización del rango, número encontrado, cantidad de intentos, puntaje y resultado de cada partida.
+- Opción **Ver detalle** para consultar todos los intentos realizados en una partida anterior.
+- Sección **Cómo jugar** con instrucciones para el usuario.
 
-Se utilizaron estructuras condicionales como:
+## Fecha
 
-- if
-- elif
-- else
-
-Estas permiten tomar decisiones según las respuestas del usuario.
-
-También se utilizaron ciclos while para repetir los intentos y las validaciones.
-
-## Arquitectura
-
-El sistema está dividido principalmente en:
-
-- `main.py`: coordinación general.
-- `interfaz.py`: interacción con el usuario.
-- `juego.py`: lógica principal del juego.
-- `datos.py`: almacenamiento de estadísticas.
-
-## Relación con los diagramas
-
-Los diagramas desarrollados anteriormente representan directamente el funcionamiento implementado en el código.
-
-Por ejemplo:
-
-- Generar intento → `calcular_intento()`
-- Validar respuesta → `solicitar_respuesta()`
-- Ajustar rango → `jugar_partida()`
-- Repetir intentos → ciclo `while`
-- Detectar contradicciones → comparación entre mínimo y máximo
-
-## Ejecución
-
-```bash
-python src/main.py
+**23 de agosto de 2026**
